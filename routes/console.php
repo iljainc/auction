@@ -9,6 +9,6 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 // Cron schedule для команд аукциона
-// Schedule::command('sendMsgToAdmin')->everyMinute()->withoutOverlapping();
-// Schedule::command('publish')->everyMinute()->withoutOverlapping();
-// Schedule::command('temp-files:clean')->hourly();
+Schedule::command('sendMsgToAdmin')->everyMinute()->withoutOverlapping();
+Schedule::command('publish')->everyMinute()->withoutOverlapping();
+Schedule::command('temp-files:clean')->hourly();

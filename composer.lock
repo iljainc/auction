@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c514d8f7b9fc5970bdd94287905ef584",
+    "content-hash": "be819f89e0dced31bac4a432c91fa892",
     "packages": [
         {
             "name": "brick/math",
@@ -1052,6 +1052,59 @@
                 }
             ],
             "time": "2025-08-22T14:27:06+00:00"
+        },
+        {
+            "name": "idpromogroup/laravel-openai-responses",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/iljainc/laravel-openai-responses.git",
+                "reference": "854190d7f825287cd630936b715e7b20938568eb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/iljainc/laravel-openai-responses/zipball/854190d7f825287cd630936b715e7b20938568eb",
+                "reference": "854190d7f825287cd630936b715e7b20938568eb",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^10.0|^11.0|^12.0",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0",
+                "phpunit/phpunit": "^10.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Idpromogroup\\LaravelOpenaiResponses\\LaravelOpenaiResponsesServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Idpromogroup\\LaravelOpenaiResponses\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "IDPromoGroup",
+                    "email": "idpromogroup@gmail.com"
+                }
+            ],
+            "description": "Laravel package for standardizing OpenAI API responses",
+            "support": {
+                "issues": "https://github.com/iljainc/laravel-openai-responses/issues",
+                "source": "https://github.com/iljainc/laravel-openai-responses/tree/main"
+            },
+            "time": "2025-09-14T17:52:24+00:00"
         },
         {
             "name": "laravel/framework",
@@ -8382,7 +8435,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": {
+        "idpromogroup/laravel-openai-responses": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
