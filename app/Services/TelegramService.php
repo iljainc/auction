@@ -314,7 +314,7 @@ class TelegramService
     /**
      * Edit message text via Telegram API
      */
-    public static function editMessage($chatId, $messageId, $text, $entities = null)
+    public static function editMessage($chatId, $messageId, $text, $entities = null, $type = '')
     {
         $json = [
             'json' => [
@@ -329,13 +329,13 @@ class TelegramService
             $json['json']['entities'] = $entities;
         }
 
-        return self::send($chatId, $json, 'editMessageText');
+        return self::send($chatId, $json, 'editMessageText', $type);
     }
 
     /**
      * Edit message caption via Telegram API (for media messages)
      */
-    public static function editMessageCaption($chatId, $messageId, $caption, $entities = null)
+    public static function editMessageCaption($chatId, $messageId, $caption, $entities = null, $type = '')
     {
         $json = [
             'json' => [
@@ -350,7 +350,7 @@ class TelegramService
             $json['json']['caption_entities'] = $entities;
         }
 
-        return self::send($chatId, $json, 'editMessageCaption');
+        return self::send($chatId, $json, 'editMessageCaption', $type);
     }
 
     /**

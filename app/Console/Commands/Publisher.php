@@ -156,9 +156,9 @@ class Publisher extends Command
             
             // Проверяем есть ли медиа в заказе - если да, редактируем caption, иначе text
             if (!empty($order->media) && count($order->media) > 0) {
-                TelegramService::editMessageCaption($channelId, $messageId, $updatedText);
+                TelegramService::editMessageCaption($channelId, $messageId, $updatedText, null, 'auction_edit_'.$order->id);
             } else {
-                TelegramService::editMessage($channelId, $messageId, $updatedText);
+                TelegramService::editMessage($channelId, $messageId, $updatedText, null, 'auction_edit_'.$order->id);
             }
             
             $this->line("💬 Sending comment to thread {$reply_to_message_id}...");
