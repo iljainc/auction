@@ -148,6 +148,13 @@ class Publisher extends Command
             $this->line("✅ Found auto-forward thread ID: {$reply_to_message_id}");
             $discussionGroupId = config('services.auction.discussion_group_id');
             
+            // Обновляем сообщение со ссылкой на обсуждение
+            $discussionLink = $this->getDiscussionLink($discussionGroupId, $reply_to_message_id);
+            $updatedText = $this->addLinkToText($text, $discussionLink);
+            
+            $this->line("🔄 Updating message with discussion link...");
+            TelegramService::editMessage($channelId, $messageId, $updatedText);
+            
             $this->line("💬 Sending comment to thread {$reply_to_message_id}...");
             $commentResult = TelegramService::sendMessage($discussionGroupId, "Делайте ваши ставки", '', 
                 'auction_comm_'.$order->id, [], null, null, $reply_to_message_id);
@@ -329,11 +336,17 @@ class Publisher extends Command
         return "https://t.me/{$cleanId}/{$messageId}";
     }
 
+    private function getDiscussionLink(string $groupId, int $messageId): string
+    {
+        $cleanId = ltrim($groupId, '-');
+        return "https://t.me/c/{$cleanId}/{$messageId}";
+    }
+
     private function addLinkToText(string $text, string $link): string
     {
         return str_replace(
             '👉<b>Для участия в лоте переходи по ссылке:</b>  👈',
-            "👉<b>Для участия в лоте переходи по ссылке:</b> {$link} 👈",
+            "👉<a href=\"{$link}\"><b>Для участия в лоте переходи по ссылке:</b></a> 👈",
             $text
         );
     }
