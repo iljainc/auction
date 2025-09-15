@@ -40,6 +40,7 @@ return [
         'repost_group_id' => env('AUCTION_REPOST_GROUP_ID'),
         'repost_topic_id' => env('AUCTION_REPOST_TOPIC_ID'),
         'discussion_group_id' => env('AUCTION_DISCUSSION_GROUP_ID'),
+        'channel_username' => env('AUCTION_CHANNEL_USERNAME'),
     ],
 
 ];
