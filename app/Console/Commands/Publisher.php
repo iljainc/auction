@@ -149,7 +149,7 @@ class Publisher extends Command
             $discussionGroupId = config('services.auction.discussion_group_id');
             
             // Обновляем сообщение со ссылкой на обсуждение
-            $discussionLink = $this->getDiscussionLink($discussionGroupId, $reply_to_message_id);
+            $discussionLink = $this->getDiscussionLink($messageId, $reply_to_message_id);
             $updatedText = $this->addLinkToText($text, $discussionLink);
             
             $this->line("🔄 Updating message with discussion link...");
@@ -342,10 +342,12 @@ class Publisher extends Command
         return "https://t.me/{$cleanId}/{$messageId}";
     }
 
-    private function getDiscussionLink(string $groupId, int $messageId): string
+    private function getDiscussionLink(int $channelMessageId, int $commentMessageId): string
     {
-        $cleanId = ltrim($groupId, '-');
-        return "https://t.me/c/{$cleanId}/{$messageId}";
+        // Получаем username канала из конфига
+        $channelUsername = config('services.auction.channel_username', 'auctiong1');
+        
+        return "https://t.me/{$channelUsername}/{$channelMessageId}?comment={$commentMessageId}";
     }
 
     private function addLinkToText(string $text, string $link): string
