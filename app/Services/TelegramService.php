@@ -333,6 +333,27 @@ class TelegramService
     }
 
     /**
+     * Edit message caption via Telegram API (for media messages)
+     */
+    public static function editMessageCaption($chatId, $messageId, $caption, $entities = null)
+    {
+        $json = [
+            'json' => [
+                'chat_id' => $chatId,
+                'message_id' => $messageId,
+                'caption' => $caption,
+                'parse_mode' => 'HTML'
+            ]
+        ];
+
+        if (!empty($entities)) {
+            $json['json']['caption_entities'] = $entities;
+        }
+
+        return self::send($chatId, $json, 'editMessageCaption');
+    }
+
+    /**
      * Forward message to another chat
      */
     public static function forwardMessage($fromChatId, $toChatId, $messageId, $topicId = null)

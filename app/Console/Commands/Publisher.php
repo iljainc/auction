@@ -153,7 +153,13 @@ class Publisher extends Command
             $updatedText = $this->addLinkToText($text, $discussionLink);
             
             $this->line("🔄 Updating message with discussion link...");
-            TelegramService::editMessage($channelId, $messageId, $updatedText);
+            
+            // Проверяем есть ли медиа в заказе - если да, редактируем caption, иначе text
+            if (!empty($order->media) && count($order->media) > 0) {
+                TelegramService::editMessageCaption($channelId, $messageId, $updatedText);
+            } else {
+                TelegramService::editMessage($channelId, $messageId, $updatedText);
+            }
             
             $this->line("💬 Sending comment to thread {$reply_to_message_id}...");
             $commentResult = TelegramService::sendMessage($discussionGroupId, "Делайте ваши ставки", '', 
