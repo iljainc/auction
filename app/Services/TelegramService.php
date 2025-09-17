@@ -135,7 +135,19 @@ class TelegramService
                     $results[] = self::sendMessage($chatId, $message, '', $type, [], $entities, $topicId);
                 }
             } else {
-                // Media group (multiple files)
+                // Media group (multiple files) - remove duplicates by telegram_file_id and limit to 10 files
+                $uniqueMediaFiles = [];
+                $seenFileIds = [];
+                
+                foreach ($mediaFiles as $mediaFile) {
+                    if (!in_array($mediaFile->telegram_file_id, $seenFileIds)) {
+                        $uniqueMediaFiles[] = $mediaFile;
+                        $seenFileIds[] = $mediaFile->telegram_file_id;
+                    }
+                }
+                
+                $mediaFiles = array_slice($uniqueMediaFiles, -10);
+                
                 $media = [];
                 foreach ($mediaFiles as $index => $mediaFile) {
                     $mediaItem = [

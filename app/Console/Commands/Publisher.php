@@ -228,7 +228,7 @@ class Publisher extends Command
         
         // Начальная ставка
         if ($order->bid) {
-            $text .= "<b>Начальная ставка:</b> {$order->bid}₪\n";
+            $text .= "<b>Начальная ставка:</b> " . round($order->bid) . "₪\n";
         }
         
         // Следующий шаг (пока захардкодим)
