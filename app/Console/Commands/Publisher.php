@@ -124,12 +124,11 @@ class Publisher extends Command
         
         // ШАГ 1: Отправляем основное сообщение в канал аукциона (с повторами при 502/503 ошибках)
         $this->line("📤 Sending message to channel {$channelId}...");
-        $result = $this->sendWithRetry(function() use ($channelId, $text, $order) {
-            return TelegramService::sendMessage($channelId, $text, '', 'auction_'.$order->id, $order->media);
-        });
-        
+        $result = TelegramService::sendMessage($channelId, $text, '', 'auction_'.$order->id, $order->media);        
+
         // Извлекаем ID отправленного сообщения из результата
         $messageId = $this->extractMessageId($result);
+
         if (!$messageId) {
             $this->error("❌ Failed to extract message ID from result");
             if (is_object($result) && isset($result->error)) {
@@ -250,17 +249,12 @@ class Publisher extends Command
 
     private function extractMessageId($result): ?int
     {
-        if (!$result || !isset($result->message_id)) {
+        if (!$result || empty($result->message_id)) {
             return null;
         }
         
         $messageIds = $result->message_id;
-        
-        if (!is_array($messageIds) || empty($messageIds)) {
-            return null;
-        }
-        
-        return $messageIds[array_key_last($messageIds)];
+        return reset($messageIds);
     }
 
     /**

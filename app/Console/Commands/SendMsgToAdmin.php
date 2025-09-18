@@ -131,7 +131,7 @@ class SendMsgToAdmin extends Command
         
         $text = "<b>For admin::</b>\n📋 Новый лот <b>#$order->id</b>\n\n{$lotNameText}📝 - {$order->text}\n{$locationText}{$bidText}{$userText}🆔 - {$order->id}\n";
 
-        TelegramService::sendMessageToAdmin($text, $keyboard, "admin_order_{$order->id}");
+        TelegramService::sendMessageToAdmin($text, $keyboard, "admin_order_{$order->id}", $order->media);
 
         $this->info('Send msg for order #'.$order->id);
 

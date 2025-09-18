@@ -66,17 +66,17 @@ class TelegramService
         
         // Check if we have media files (works with arrays and collections)
         if (!empty($mediaFiles) && count($mediaFiles) > 0) {
-            // Don't send keyboard with media files
-            $keyboard = '';
-            
-            // Check if caption is too long (Telegram limit is 1024 characters)
+            // If we have keyboard, send media without caption and text separately with keyboard
+            $sendTextSeparately = !empty($keyboard);
             $captionToSend = '';
-            $sendTextSeparately = false;
             
-            if (strlen($message) > 1024) {
-                $sendTextSeparately = true;
-            } else {
-                $captionToSend = $message;
+            // If no keyboard, check caption length (Telegram limit is 1024 characters)
+            if (!$sendTextSeparately) {
+                if (strlen($message) > 1024) {
+                    $sendTextSeparately = true;
+                } else {
+                    $captionToSend = $message;
+                }
             }
             
             if (count($mediaFiles) == 1) {
@@ -130,9 +130,9 @@ class TelegramService
             
                 $results[] = self::send($chatId, $json, $command, $type);
                 
-                // Send text separately if caption was too long
+                // Send text separately if caption was too long or we have keyboard
                 if ($sendTextSeparately && !empty($message)) {
-                    $results[] = self::sendMessage($chatId, $message, '', $type, [], $entities, $topicId);
+                    $results[] = self::sendMessage($chatId, $message, $keyboard, $type, [], $entities, $topicId);
                 }
             } else {
                 // Media group (multiple files) - remove duplicates by telegram_file_id and limit to 10 files
@@ -189,9 +189,9 @@ class TelegramService
                 
                 $results[] = self::send($chatId, $json, 'sendMediaGroup', $type);
                 
-                // Send text separately if caption was too long
+                // Send text separately if caption was too long or we have keyboard
                 if ($sendTextSeparately && !empty($message)) {
-                    $results[] = self::sendMessage($chatId, $message, '', $type, [], $entities, $topicId);
+                    $results[] = self::sendMessage($chatId, $message, $keyboard, $type, [], $entities, $topicId);
                 }
             }
         } else {
