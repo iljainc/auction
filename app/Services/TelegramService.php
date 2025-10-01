@@ -418,6 +418,22 @@ class TelegramService
     }
 
     /**
+     * Edit message reply markup (inline keyboard) via Telegram API
+     */
+    public static function editMessageReplyMarkup($chatId, $messageId, $replyMarkup = [], $type = '')
+    {
+        $json = [
+            'json' => [
+                'chat_id' => $chatId,
+                'message_id' => $messageId,
+                'reply_markup' => json_encode(['inline_keyboard' => $replyMarkup])
+            ]
+        ];
+
+        return self::send($chatId, $json, 'editMessageReplyMarkup', $type);
+    }
+
+    /**
      * Universal method to upload media file and get telegram_file_id
      * Sends to test user 7196275071 without deletion
      */

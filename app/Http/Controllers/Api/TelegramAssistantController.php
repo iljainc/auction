@@ -191,8 +191,8 @@ class TelegramAssistantController extends Controller
             ->get();
         
         foreach ($logs as $log) {
-            // Удаляем сообщение через TelegramService
-            \App\Services\TelegramService::deleteMessage($log->tid, $log->message_id);
+            // Убираем только кнопки, сообщение остается
+            \App\Services\TelegramService::editMessageReplyMarkup($log->tid, $log->message_id, []);
         };
     }
 
